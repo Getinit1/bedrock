@@ -4,6 +4,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 import json
+import os
 from urlparse import parse_qs
 
 from django.test import override_settings
@@ -445,6 +446,8 @@ class TestFirefoxNew(TestCase):
 
     # wait face video experiment bug 1431795
 
+    @patch.dict(os.environ, SWITCH_EXPERIMENT_FIREFOX_NEW_WAITFACE='True')
+    @patch.dict(os.environ, SWITCH_EXPERIMENT_FIREFOX_NEW_WAITFACE_SWITCH='False')
     def test_wait_face_video_var_a_scene_1(self, render_mock):
         req = RequestFactory().get('/firefox/new/?xv=waitface&v=a')
         req.locale = 'en-US'
@@ -457,6 +460,8 @@ class TestFirefoxNew(TestCase):
         views.new(req)
         render_mock.assert_called_once_with(req, 'firefox/new/wait-face/scene2.html')
 
+    @patch.dict(os.environ, SWITCH_EXPERIMENT_FIREFOX_NEW_WAITFACE='True')
+    @patch.dict(os.environ, SWITCH_EXPERIMENT_FIREFOX_NEW_WAITFACE_SWITCH='False')
     def test_wait_face_video_var_b_scene_1(self, render_mock):
         req = RequestFactory().get('/firefox/new/?xv=waitface&v=b')
         req.locale = 'en-US'
@@ -468,6 +473,32 @@ class TestFirefoxNew(TestCase):
         req.locale = 'en-US'
         views.new(req)
         render_mock.assert_called_once_with(req, 'firefox/new/wait-face/scene2.html')
+
+    # wait face switch experiment bug 1443921
+
+    @patch.dict(os.environ, SWITCH_EXPERIMENT_FIREFOX_NEW_WAITFACE='False')
+    @patch.dict(os.environ, SWITCH_EXPERIMENT_FIREFOX_NEW_WAITFACE_SWITCH='True')
+    def test_wait_face_switch_var_1_scene_1(self, render_mock):
+        req = RequestFactory().get('/firefox/new/?xv=waitface&v=1')
+        req.locale = 'en-US'
+        views.new(req)
+        render_mock.assert_called_once_with(req, 'firefox/new/wait-face/scene1.html')
+
+    @patch.dict(os.environ, SWITCH_EXPERIMENT_FIREFOX_NEW_WAITFACE='False')
+    @patch.dict(os.environ, SWITCH_EXPERIMENT_FIREFOX_NEW_WAITFACE_SWITCH='True')
+    def test_wait_face_switch_var_2_scene_1(self, render_mock):
+        req = RequestFactory().get('/firefox/new/?xv=waitface&v=2')
+        req.locale = 'en-US'
+        views.new(req)
+        render_mock.assert_called_once_with(req, 'firefox/new/wait-face/scene1-switch.html')
+
+    @patch.dict(os.environ, SWITCH_EXPERIMENT_FIREFOX_NEW_WAITFACE='False')
+    @patch.dict(os.environ, SWITCH_EXPERIMENT_FIREFOX_NEW_WAITFACE_SWITCH='True')
+    def test_wait_face_switch_var_3_scene_1(self, render_mock):
+        req = RequestFactory().get('/firefox/new/?xv=waitface&v=3')
+        req.locale = 'en-US'
+        views.new(req)
+        render_mock.assert_called_once_with(req, 'firefox/switch.html')
 
     # reggie watts campaign bug 1413995
 

@@ -1156,6 +1156,13 @@ PIPELINE_JS = {
         ),
         'output_filename': 'js/experiment_firefox_new_waitface-bundle.js',
     },
+    'experiment_firefox_new_waitface_switch': {
+        'source_filenames': (
+            'js/base/mozilla-traffic-cop.js',
+            'js/firefox/new/experiment-firefox-new-waitface-switch.js',
+        ),
+        'output_filename': 'js/experiment_firefox_new_waitface-switch-bundle.js',
+    },
     'firefox_new_pixel': {
         'source_filenames': (
             'js/base/mozilla-pixel.js',
