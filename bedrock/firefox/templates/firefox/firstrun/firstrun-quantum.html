@@ -89,7 +89,7 @@
       <rect x="0" y="0" width="1440" height="800"/>
     </svg>
 
-    <main class="fxaccounts-container">
+    <main class="fxaccounts-container" {% if v %}data-variation="{{ v }}"{% endif %}>
       <header id="main-header">
       {% if v == 'b' %}
         <h1>The web is a big place.<br>Take shortcuts.<br>Get a Firefox Account.</h1>
